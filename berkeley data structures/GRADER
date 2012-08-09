@@ -1,0 +1,129 @@
+Project 3 GRADER FILE			
+
+Name: Jonathan Chen
+Login: cs61b-pk
+
+Name: Benjamin Lee
+Login: cs61b-if
+
+********************************************************************************
+*** This project was essentially built following the plan in the readme file.***
+********************************************************************************
+
+::: WUGraph.java :::
+
+(1) HashTable used to quickly map application's vertex objects to our internal 
+    representation form ('Entry' objects).
+
+(2) Doubly-Linked list consisting of the vertices of the graph 
+    (supports getVertices() in O(|V|) time).
+
+(3) Each DListNode of the list of vertices contains an 'adjList' field which is 
+    also a DList. Therefore, the adjList field and its reference to a DList of 
+    edges/neighbors supports getNeighbors() in O(d) time and removeEdge in 
+    O(1) time.
+
+(4) To support removeVertex() in O(d) time, we chose option [i] (as stated in 
+    the readme) as our approach. 
+
+(5) A second HashTable of 'Entry' objects is created to store edges. Keys are 
+    VertexPairs. Values are references to corresponding adjacency list nodes. 
+    This HashTable for edges allows for removeEdge(), isEdge(), and weight() to 
+    function in O(1) time.
+
+(6) Length/sizes of the HashTable and DLists (including their fields) allow us 
+    to run count methods in O(1) time. 
+
+
+::: Kruskal.java :::
+
+- Internal representation of edges are in the form of 'KruskalEdge' objects 
+  (similar to VertexPair objects).
+
+- Used a Linked-Queue to store all edges ('KruskalEdge' objects) and sort based 
+  on the added 'weight' field in each 'KruskalEdge' object.
+
+- 'DisjointSets' object used to determine which vertices are connected and 
+   which are not. Each element in this object's 'array' field represents a 
+   vertex of the graph.
+
+- HashTable of 'Entry' objects. Each entry's key is a vertex. Each value of an 
+  entry is an integer indicating the vertex's index in the disjoint set.
+
+
+_______________
+
+Other Data Structures:
+
+
+-----------------------------------------------------------------------
+::: KruskalEdge :::
+
+- Data structure similar to VertexPair. This data structure is used to represent 
+  an edge of a graph in Kruskal.java.
+- All edges in Kruskal.java are represented as KruskalEdge objects, stored in a 
+  linked queue, and can be sorted based on weight.
+
+- The only difference is an added weight field to store the weight that the 
+  represented edge holds. In addition, there is a compareTo() method that allows 
+  KruskalEdge objects to be compared to each other based on their weight fields.
+
+-----------------------------------------------------------------------
+
+::: HashTableChained :::
+
+- The HashTableChained data structure contains 'Entry' objects. 
+
+- Used in both Kruskal.java and WUGraph.java. 
+
+- In WUGraph.java there are two hash tables. One for vertices and one for edges.
+
+- In Kruskal.java, HashTableChained is used to create a Hash Table of 'Entry' 
+  objects where the keys are the vertex objects themselves. The value of each 
+  'Entry' is the integer that represents the vertex's index in the disjoint set. 
+
+- The class is almost the same as the HashTableChained used in homework 6. An 
+  added resizing method tests whether the current table needs to be increased 
+  in size in order to maintain a load factor of under 0.85. If the table needs 
+  to be resized, another hash table is created that is double the size of the 
+  original. All of the elements are rehashed into the new table.
+
+---------------------------------------------------------------------
+
+::: Linked Queue :::
+
+- Exactly the Linked Queue used in homework 8 (Sorting). 
+- It is able to store any type of object.
+
+- We used linked queues in Kruskal.java to store all of the edges of a graph. 
+- The linked queue in Kruskal.java is a queue of 'KruskalEdge' objects.
+- We used the homework 8 quicksort to sort the list of edges by their weights.
+
+- Duplicate edges in the LinkedQueue would be weeded out in the process of 
+  creating the minSpanTree, through the application of DisjointSets.
+
+---------------------------------------------------------------------
+
+::: Encapsulated DList/ DListNode :::
+
+DList is essentially the same as the encapsulated DList we had to build for 
+homework.
+
+However, DListNode has some added fields:
+
+'partner'   - Reference to the DListNode holding the 'Entry' with the partner 
+              VertexPair; (u, g) --> (g, u);
+	           (could also be itself (a self-edge)).
+'vertexOne' - Reference to the first vertex of VertexPair in the DList of 
+              vertices.
+'vertexTwo' - Reference to the second vertex of VertexPair in the DList of 
+              vertices.
+'adjList'   - Reference to a DList. Vertex's adjacency list.
+
+
+
+
+
+
+
+
